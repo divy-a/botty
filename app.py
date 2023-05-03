@@ -1,21 +1,11 @@
 import discord
 import os
-import threading
 from dotenv import load_dotenv
 from flask import Flask
 
 load_dotenv()
 
 app = Flask(__name__)
-
-@app.after_request
-def add_headers(response):
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
-
-@app.route('/')
-def index():
-    return 'BOTTY SERVER'
 
 intents = discord.Intents.default()
 intents.members = True
@@ -32,12 +22,16 @@ async def on_message(message):
         return
 
     if message.content.startswith('$hello'):
-        await message.channel.send('hi')
+        await message.channel.send('Hello!')
 
-def start_discord_bot():
-    client.run(os.getenv('TOKEN'))
+@app.route('/')
+def index():
+    return 'BOTTY SERVER'
+
+@app.after_request
+def add_headers(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 if __name__ == '__main__':
-    discord_thread = threading.Thread(target=start_discord_bot)
-    discord_thread.start()
-    app.run()
+    client.run(os.getenv('TOKEN'))
