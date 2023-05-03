@@ -23,6 +23,8 @@ async def on_message(message):
 
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
+        
+client.run(os.getenv('TOKEN'))
 
 @app.route('/')
 def index():
@@ -34,4 +36,4 @@ def add_headers(response):
     return response
 
 if __name__ == '__main__':
-    client.run(os.getenv('TOKEN'))
+    app.run()
